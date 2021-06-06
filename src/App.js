@@ -15,8 +15,20 @@ class App extends React.Component{
         this.setState(current => ({count:current.count - 1}));
     }
 
+    componentDidMount() {
+    console.log("Component rendered");
+    }
+    componentDidUpdate() {
+    console.log("I just updated");
+    }
+    componentWillUnmount() {
+    console.log("Goodbye, cruel world");
+    }
+      
+
     // App 클래스에 있는 add, del을 버튼에 이벤트로줌
     render () {
+        console.log("I'm rendering");
         return (
             <div>
                 <h1>The number is: {this.state.count}</h1>
