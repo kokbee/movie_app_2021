@@ -5,13 +5,17 @@ class App extends React.Component{
     state = {
         count :0
     };
+
+    // this.setState({count:this.state.count + 1}); 로 카운트를 하는방식이 가능하지만
+    // react 에서는 자신에게 있는 값을 current로 가져올 수 있다.
     add = () => {
-        console.log("add");
+        this.setState(current => ({count:current.count + 1}));
     };
     del = () => {
-        console.log("del");
+        this.setState(current => ({count:current.count - 1}));
     }
 
+    // App 클래스에 있는 add, del을 버튼에 이벤트로줌
     render () {
         return (
             <div>
