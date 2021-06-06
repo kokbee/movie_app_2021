@@ -1,26 +1,42 @@
 import React from "react";
 import axios from "axios";
+import Movie from "./Movie";
 
 class App extends React.Component {
     state = {
       isLoading: true,
       movies: []
     };
+    // data의 오브젝트가 뎁스가 길어서 상수로 받는값에 적용
     getMovies = async () => {
-      const movies = await axios.get("https://yts-proxy.now.sh/list_movies.json");
+        const {
+            data: {
+              data: { movies }
+            }
+          } = await axios.get(
+            "https://yts-proxy.now.sh/list_movies.json?sort_by=rating"
+          );
+        this.setState({ movies, isLoading: false });
     };
     componentDidMount() {
-      setTimeout(() => {
-        this.setState({ isLoading: false });
-      }, 6000);
       this.getMovies();
     }
     // 삼항 연산자를 사용해 렌더가 된 후 componentDidMount를 통해 값을 변경하여 출력 
     render () {
-        const {isLoading} = this.state;
+        const {isLoading, movies} = this.state;
         return (
             <div>
-                {isLoading ? "Loading..." : "We are ready"}
+                {isLoading ? "Loading..." : movies.map(movie => {
+                    console.log(movie);
+                    return <Movie
+                    key={movie.id}
+                    id={movie.id}
+                    year={movie.year}
+                    title={movie.title}
+                    summary={movie.summary}
+                    poster={movie.medium_cover_image}
+                  />
+                })}
             </div>
         );
     }
